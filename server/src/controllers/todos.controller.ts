@@ -37,7 +37,6 @@ export const addNewTodo = async (req: Request, res: Response) => {
           connect: { id: todoData.userId },
         },
         title: todoData.title,
-        description: todoData.description,
       },
     });
 
