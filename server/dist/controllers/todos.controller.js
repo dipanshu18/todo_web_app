@@ -15,7 +15,7 @@ const todoClient = new client_1.PrismaClient().todo;
 const getAllTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const todos = yield todoClient.findMany();
-        res.status(200).json({ data: todos });
+        res.status(200).json(todos);
     }
     catch (e) {
         console.log(e);
@@ -24,13 +24,13 @@ const getAllTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllTodos = getAllTodos;
 const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const todoId = req.params.id;
+        const { id } = req.params;
         const todo = yield todoClient.findUnique({
             where: {
-                id: todoId,
+                id,
             },
         });
-        res.status(200).json({ data: todo });
+        res.status(200).json(todo);
     }
     catch (e) {
         console.log(e);
@@ -39,17 +39,16 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getTodo = getTodo;
 const addNewTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const todoData = req.body;
+        const { title } = req.body;
         const newTodo = yield todoClient.create({
             data: {
-                user: {
-                    connect: { id: todoData.userId },
-                },
-                title: todoData.title,
-                description: todoData.description,
+                // user: {
+                //   connect: { id: todoData.userId },
+                // },
+                title,
             },
         });
-        res.status(201).json({ data: newTodo });
+        res.status(201).json(newTodo);
     }
     catch (e) {
         console.log(e);
@@ -58,15 +57,15 @@ const addNewTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.addNewTodo = addNewTodo;
 const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const todoId = req.params.id;
-        const updatedTodoData = req.body;
+        const { id } = req.params;
+        const { title } = req.body;
         const updatedTodo = yield todoClient.update({
             where: {
-                id: todoId,
+                id,
             },
-            data: updatedTodoData,
+            data: { title },
         });
-        res.status(200).json({ data: updatedTodo });
+        res.status(200).json(updatedTodo);
     }
     catch (e) {
         console.log(e);
@@ -75,13 +74,13 @@ const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateTodo = updateTodo;
 const deleteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const todoId = req.params.id;
+        const { id } = req.params;
         const deletedTodo = yield todoClient.delete({
             where: {
-                id: todoId,
+                id,
             },
         });
-        res.status(200).json({ data: deletedTodo });
+        res.status(200).json(deletedTodo);
     }
     catch (e) {
         console.log(e);
