@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import background from "../assets/bg.jpg";
+import background from "../../public/bg.jpg";
 
 export default function Login() {
   return (
@@ -56,7 +56,7 @@ export default function Login() {
               Not have an account?{" "}
               <Link to="/signup">
                 <span className="underline font-medium">
-                  <button>Sign up</button>
+                  <a>Sign up</a>
                 </span>
               </Link>
             </p>

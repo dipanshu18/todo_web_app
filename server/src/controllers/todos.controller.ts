@@ -7,7 +7,7 @@ export const getAllTodos = async (req: Request, res: Response) => {
   try {
     const todos = await todoClient.findMany();
 
-    res.status(200).json(todos);
+    res.status(200).json({ data: todos });
   } catch (e) {
     console.log(e);
   }
@@ -15,14 +15,14 @@ export const getAllTodos = async (req: Request, res: Response) => {
 
 export const getTodo = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const todoId = req.params.id;
     const todo = await todoClient.findUnique({
       where: {
-        id,
+        id: todoId,
       },
     });
 
-    res.status(200).json(todo);
+    res.status(200).json({ data: todo });
   } catch (e) {
     console.log(e);
   }
@@ -30,17 +30,17 @@ export const getTodo = async (req: Request, res: Response) => {
 
 export const addNewTodo = async (req: Request, res: Response) => {
   try {
-    const { title } = req.body;
+    const todoData = req.body;
     const newTodo = await todoClient.create({
       data: {
-        // user: {
-        //   connect: { id: todoData.userId },
-        // },
-        title,
+        user: {
+          connect: { id: todoData.userId },
+        },
+        title: todoData.title,
       },
     });
 
-    res.status(201).json(newTodo);
+    res.status(201).json({ data: newTodo });
   } catch (e) {
     console.log(e);
   }
@@ -48,16 +48,16 @@ export const addNewTodo = async (req: Request, res: Response) => {
 
 export const updateTodo = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const { title } = req.body;
+    const todoId = req.params.id;
+    const updatedTodoData = req.body;
     const updatedTodo = await todoClient.update({
       where: {
-        id,
+        id: todoId,
       },
-      data: { title },
+      data: updatedTodoData,
     });
 
-    res.status(200).json(updatedTodo);
+    res.status(200).json({ data: updatedTodo });
   } catch (e) {
     console.log(e);
   }
@@ -65,14 +65,14 @@ export const updateTodo = async (req: Request, res: Response) => {
 
 export const deleteTodo = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const todoId = req.params.id;
     const deletedTodo = await todoClient.delete({
       where: {
-        id,
+        id: todoId,
       },
     });
 
-    res.status(200).json(deletedTodo);
+    res.status(200).json({ data: deletedTodo });
   } catch (e) {
     console.log(e);
   }

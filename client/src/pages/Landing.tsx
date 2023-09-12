@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import background from "../assets/bg.jpg";
+import background from "../../public/bg.jpg";
 
 export default function Landing() {
   return (
@@ -9,9 +9,9 @@ export default function Landing() {
           <div className="navbar bg-slate-500">
             <div className="navbar-start">
               <Link to="/">
-                <button className="btn btn-ghost text-white normal-case text-xl">
+                <a className="btn btn-ghost text-white normal-case text-xl">
                   ToDoify
-                </button>
+                </a>
               </Link>
             </div>
             <div className="navbar-end">
