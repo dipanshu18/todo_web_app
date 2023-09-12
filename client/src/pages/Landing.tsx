@@ -16,7 +16,7 @@ export default function Landing() {
             </div>
             <div className="navbar-end">
               <Link to="/login">
-                <a className="btn bg-slate-800">Login</a>
+                <button className="btn bg-slate-800">Login</button>
               </Link>
             </div>
           </div>

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function ToDo({ todo }) {
   const [newTitle, setNewTitle] = useState("");
 
-  async function handleSubmit() {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const id = todo.id;
     const updates = { title: newTitle };
@@ -18,10 +18,11 @@ export default function ToDo({ todo }) {
     if (response.ok) {
       setNewTitle("");
       console.log("successfully updated");
+      document.getElementById(todo.id).close();
     }
   }
 
-  async function handleDelete(e) {
+  async function handleDelete(e: FormEvent) {
     e.preventDefault();
     const id = todo.id;
     const response = await fetch(`http://localhost:4000/api/todos/${id}`, {
@@ -36,7 +37,7 @@ export default function ToDo({ todo }) {
     }
   }
 
-  async function handleDone(e) {
+  async function handleDone(e: FormEvent) {
     e.preventDefault();
     const id = todo.id;
     const response = await fetch(`http://localhost:4000/api/todos/${id}`, {
@@ -65,11 +66,11 @@ export default function ToDo({ todo }) {
               {/* Open the modal using document.getElementById('ID').showModal() method */}
               <button
                 className="btn"
-                onClick={() => document.getElementById("my_modal").showModal()}
+                onClick={() => document.getElementById(todo.id).showModal()}
               >
                 Edit
               </button>
-              <dialog id="my_modal" className="modal">
+              <dialog id={todo.id} className="modal">
                 <div className="modal-box">
                   <p className="pb-8 text-center">
                     Press ESC key or click outside to close

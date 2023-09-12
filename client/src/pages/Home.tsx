@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import ToDo from "../components/ToDo";
 import background from "../assets/bg.jpg";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 export interface TodoData {
-  id: String;
+  id: React.Key;
   title: String;
 }
 
@@ -27,7 +27,7 @@ export default function Home() {
     fetchTodos();
   }, []);
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const data = { title: newTodo };
     const response = await fetch("http://localhost:4000/api/todos", {
