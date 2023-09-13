@@ -39,12 +39,12 @@ const getTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getTodo = getTodo;
 const addNewTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title } = req.body;
+        const { title, userId } = req.body;
         const newTodo = yield todoClient.create({
             data: {
-                // user: {
-                //   connect: { id: todoData.userId },
-                // },
+                user: {
+                    connect: { id: userId },
+                },
                 title,
             },
         });

@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 
-export default function ToDo({ todo }) {
+export default function Todo({ todo }) {
   const [newTitle, setNewTitle] = useState("");
 
   async function handleSubmit(e: FormEvent) {

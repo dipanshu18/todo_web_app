@@ -30,12 +30,12 @@ export const getTodo = async (req: Request, res: Response) => {
 
 export const addNewTodo = async (req: Request, res: Response) => {
   try {
-    const { title } = req.body;
+    const { title, userId } = req.body;
     const newTodo = await todoClient.create({
       data: {
-        // user: {
-        //   connect: { id: todoData.userId },
-        // },
+        user: {
+          connect: { id: userId },
+        },
         title,
       },
     });

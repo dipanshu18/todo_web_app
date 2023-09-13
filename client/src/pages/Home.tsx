@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
-import ToDo from "../components/ToDo";
+import Todo from "../components/Todo";
 import background from "../assets/bg.jpg";
 import { FormEvent, useEffect, useState } from "react";
+
+export interface UserData {
+  id: String;
+  name: String;
+  email: String;
+  todos?: TodoData[];
+}
 
 export interface TodoData {
   id: React.Key;
@@ -9,11 +16,23 @@ export interface TodoData {
 }
 
 export default function Home() {
+  const [user, setUser] = useState<UserData[]>([]);
+
   const [todos, setTodos] = useState<TodoData[]>([]);
 
   const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
+    async function fetchUser() {
+      const request = await fetch("http://localhost:4000/api/user");
+      const data = await request.json();
+      console.log(data[0]);
+
+      if (data) {
+        setUser(data);
+      }
+    }
+
     async function fetchTodos() {
       const request = await fetch("http://localhost:4000/api/todos");
       const data = await request.json();
@@ -24,12 +43,13 @@ export default function Home() {
       }
     }
 
+    fetchUser();
     fetchTodos();
   }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const data = { title: newTodo };
+    const data = { title: newTodo, userId: user[0].id };
     const response = await fetch("http://localhost:4000/api/todos", {
       method: "POST",
       body: JSON.stringify(data),
@@ -77,7 +97,7 @@ export default function Home() {
             </h1>
 
             {todos &&
-              todos.map((todo: TodoData) => <ToDo key={todo.id} todo={todo} />)}
+              todos.map((todo: TodoData) => <Todo key={todo.id} todo={todo} />)}
             <form
               onSubmit={handleSubmit}
               className="flex max-w-2xl text-center my-4"
